@@ -1,13 +1,10 @@
 package com.generation.telasdesenvolvmed.api
 
-import com.generation.telasdesenvolvmed.data.Login
-import com.generation.telasdesenvolvmed.data.LoginDao
 import com.generation.telasdesenvolvmed.model.*
 import retrofit2.Response
 import retrofit2.Retrofit
-import javax.inject.Inject
 
-class Repository @Inject constructor(private val loginDao: LoginDao){
+class Repository {
 
     suspend fun listTema(): Response<List<Tema>> {
         return RetrofitInstance.api.listTema()
@@ -56,15 +53,4 @@ class Repository @Inject constructor(private val loginDao: LoginDao){
     suspend fun attMedico(medico: MedicoCadastro): Response<MedicoCadastro> {
         return RetrofitInstance.api.attMedico(medico)
     }
-
-    val selectLogin = loginDao.selectLogin()
-
-    fun addLogin(login: Login){
-        loginDao.addLogin(login)
-    }
-
-    fun nukeTable(){
-        loginDao.nukeTable()
-    }
-
 }

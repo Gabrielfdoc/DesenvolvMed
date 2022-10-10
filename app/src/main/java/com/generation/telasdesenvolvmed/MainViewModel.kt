@@ -1,25 +1,21 @@
 package com.generation.telasdesenvolvmed
 
-import android.app.Application
 import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.generation.telasdesenvolvmed.api.Repository
-import com.generation.telasdesenvolvmed.data.Login
-import com.generation.telasdesenvolvmed.data.LoginDatabase
-//import com.generation.telasdesenvolvmed.data.LoginRepository
 import com.generation.telasdesenvolvmed.model.*
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import javax.inject.Inject
-//private val roomRepository: LoginRepository,
+
 @HiltViewModel
 class MainViewModel @Inject constructor(
-	private val repository: Repository,
-
-	application: Application
-) : AndroidViewModel(application) {
+	private val repository: Repository
+) : ViewModel() {
 
 	private val _myTemaResponse = MutableLiveData<Response<List<Tema>>>()
 	val myTemaResponse: LiveData<Response<List<Tema>>> = _myTemaResponse
@@ -35,13 +31,6 @@ class MainViewModel @Inject constructor(
 	var medicoLogado = MutableLiveData<Response<Medico>>()
 
 	var cadastroVerificado = MutableLiveData<Response<Cadastro>>()
-
-	val selectLogin: LiveData<List<Login>> = repository.selectLogin
-
-	init{
-		//val loginDao = LoginDatabase.getDatabase(application).loginDao()
-		//daoRepository = LoginRepository(loginDao)
-	}
 
 	fun listTema() {
 		viewModelScope.launch {
@@ -200,18 +189,6 @@ class MainViewModel @Inject constructor(
 			} catch (e : Exception){
 				Log.d("Erro", e.message.toString())
 			}
-		}
-	}
-
-	fun addLogin(login: Login){
-		viewModelScope.launch(Dispatchers.IO) {
-			repository.addLogin(login)
-		}
-	}
-
-	fun nukeLogin(){
-		viewModelScope.launch(Dispatchers.IO) {
-			repository.nukeTable()
 		}
 	}
 }

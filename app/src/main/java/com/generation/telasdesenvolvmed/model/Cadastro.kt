@@ -6,7 +6,7 @@ class Cadastro (
     val nome: String,
     val sobrenome: String,
     var senha: String,
-    var email: String,
+    val email: String,
     val comentarios: List<Comentario>?
 		){
 }
